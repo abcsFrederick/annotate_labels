@@ -193,13 +193,13 @@ class LabelAnnotator(object):
 
         try:
             image = Image.open(image_file.name)
-        except OSError as pillow_exception:
+        except (IOError, OSError) as pillow_exception:
             try:
                 import numpy
                 import pytiff
                 image = pytiff.Tiff(image_file.name)
                 image = Image.fromarray(numpy.array(image))
-            except OSError as pytiff_exception:
+            except (IOError, OSError) as pytiff_exception:
                 raise
 
         image_file.close()
